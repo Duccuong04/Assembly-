@@ -1,0 +1,62 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; Khai bao vung ma lenh
+    2 00000000                 AREA             MYCODE, CODE, READONLY
+    3 00000000                 ENTRY
+    4 00000000                 EXPORT           __main
+    5 00000000         
+    6 00000000         ; Khai bao du lieu
+    7 00000000         ;value DCD 123
+    8 00000000         
+    9 00000000         ; code
+   10 00000000         __main
+   11 00000000 F04F 0001       MOV              R0, #1      ; R0 = 1
+   12 00000004 F04F 0105       MOV              R1, #5      ; R1 = 5
+   13 00000008 EB00 0201       ADD              R2, R0, R1  ; R2 = R0 + R1
+   14 0000000C         
+   15 0000000C         STOP
+   16 0000000C E7FE            B                STOP
+   17 0000000E                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
+ork --depend=.\objects\01test.d -o.\objects\01test.o -I.\RTE\Device\STM32F103C8
+ -I.\RTE\_Target_1 -IC:\Users\DELL\AppData\Local\Arm\Packs\ARM\CMSIS\5.6.0\CMSI
+S\Core\Include -IC:\Users\DELL\AppData\Local\Arm\Packs\Keil\STM32F1xx_DFP\2.4.1
+\Device\Include --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION 
+SETA 529" --predefine="_RTE_ SETA 1" --predefine="STM32F10X_MD SETA 1" --list=.
+\listings\01test.lst 01test.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+MYCODE 00000000
+
+Symbol: MYCODE
+   Definitions
+      At line 2 in file 01test.s
+   Uses
+      None
+Comment: MYCODE unused
+STOP 0000000C
+
+Symbol: STOP
+   Definitions
+      At line 15 in file 01test.s
+   Uses
+      At line 16 in file 01test.s
+Comment: STOP used once
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 10 in file 01test.s
+   Uses
+      At line 4 in file 01test.s
+Comment: __main used once
+3 symbols
+337 symbols in table

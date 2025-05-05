@@ -1,0 +1,89 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         ; Khai bao vung ma lenh
+    2 00000000                 AREA             MYCODE, CODE, READONLY
+    3 00000000                 ENTRY
+    4 00000000                 EXPORT           __main
+    5 00000000         
+    6 00000000         ; Khai bao du lieu
+    7 00000000 00000203 
+                       BASE    EQU              0x203
+    8 00000000         
+    9 00000000         ; code
+   10 00000000         __main
+   11 00000000 F04F 0001       MOV              R0, #1      ; R0 = 1
+   12 00000004 4601            MOV              R1, R0      ; R1 = R0
+   13 00000006 F240 2203       MOV              R2, #BASE   ; LDR R2,=BASE
+   14 0000000A F05F 33FF       MOVS             R3, #-1     ; MOVES su dung co 
+                                                            dau
+   15 0000000E F241 2434       MOVW             R4, #0x1234 ; Move toi 16bit th
+                                                            ap cua R4
+   16 00000012 F2C5 6478       MOVT             R4, #0x5678 ; Move toi 16 bit c
+                                                            ao cua R4
+   17 00000016 EA6F 0500       MVN              R5,R0       ; R5 = -R0
+   18 0000001A         
+   19 0000001A F106 0601       ADD              R6,#1       ; R6 = R6 + 1
+   20 0000001E 4437            ADD              R7,R6       ; R7 = R7 + R6
+   21 00000020 EB07 0806       ADD              R8,R7,R6    ; R8 = R7 + R6
+   22 00000024         
+   23 00000024         STOP
+   24 00000024 E7FE            B                STOP
+   25 00000026                 END
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M3 --apcs=interw
+ork --depend=.\objects\02_move&add.d -o.\objects\02_move&add.o -I.\RTE\Device\S
+TM32F103C8 -I.\RTE\_Target_1 -IC:\Users\DELL\AppData\Local\Arm\Packs\ARM\CMSIS\
+5.6.0\CMSIS\Core\Include -IC:\Users\DELL\AppData\Local\Arm\Packs\Keil\STM32F1xx
+_DFP\2.4.1\Device\Include --predefine="__MICROLIB SETA 1" --predefine="__UVISIO
+N_VERSION SETA 529" --predefine="_RTE_ SETA 1" --predefine="STM32F10X_MD SETA 1
+" --list=.\listings\02_move&add.lst 02_Move&Add.s
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+MYCODE 00000000
+
+Symbol: MYCODE
+   Definitions
+      At line 2 in file 02_Move&Add.s
+   Uses
+      None
+Comment: MYCODE unused
+STOP 00000024
+
+Symbol: STOP
+   Definitions
+      At line 23 in file 02_Move&Add.s
+   Uses
+      At line 24 in file 02_Move&Add.s
+Comment: STOP used once
+__main 00000000
+
+Symbol: __main
+   Definitions
+      At line 10 in file 02_Move&Add.s
+   Uses
+      At line 4 in file 02_Move&Add.s
+Comment: __main used once
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+BASE 00000203
+
+Symbol: BASE
+   Definitions
+      At line 7 in file 02_Move&Add.s
+   Uses
+      At line 13 in file 02_Move&Add.s
+Comment: BASE used once
+1 symbol
+338 symbols in table

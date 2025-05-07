@@ -226,8 +226,32 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\02_Move&amp;Add.s</PathWithFileName>
-      <FilenameWithoutPath>02_Move&amp;Add.s</FilenameWithoutPath>
+      <PathWithFileName>.\Variable_SUB_MUL.s</PathWithFileName>
+      <FilenameWithoutPath>Variable_SUB_MUL.s</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>3</FileNumber>
+      <FileType>2</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\07_Bitwise.s</PathWithFileName>
+      <FilenameWithoutPath>07_Bitwise.s</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>4</FileNumber>
+      <FileType>2</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>.\LoadLDR_StoreSTR.s</PathWithFileName>
+      <FilenameWithoutPath>LoadLDR_StoreSTR.s</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

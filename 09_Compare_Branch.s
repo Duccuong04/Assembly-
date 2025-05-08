@@ -8,9 +8,21 @@
 	
 ; code
 __main
-	MOV R0, #1		; R0 = 1
-	MOV R1, #5		; R1 = 5
-	ADD R2, R0, R1  ; R2 = R0 + R1
+	
+	MOV R1,#1
+	MOV R0,#0
+	MOV R2,#1
+	
+	CMP R0,R2
+	BEQ Bangnhau
+	BNE Khaunhau
+	MOV R2,#99
+
+Bangnhau
+	MOV R2,#100
+	
+Khacnhau
+	MOV R2,#90
 	
 STOP
 	B STOP

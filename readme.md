@@ -256,3 +256,331 @@ STOP    B STOP
 
 ### 2. Lưu trước cộng sau
 ![alt text](image-21.png)
+
+```c
+        LDR R0, =0xABCDABCD
+        LDR R1, =0x2000100
+        STR R0, [R1]
+```
+
+- Lưu giá trị của thanh ghi R0 vào vùng nhớ R1
+
+## 9. Compare CMP, Label, Branch B, Branch And Link BL, Branch eXchange BX
+
+![alt text](image-22.png)
+
+![alt text](image-23.png)
+
+![alt text](image-24.png)
+![alt text](image-25.png)
+
+### Check các cờ tại thanh ghi PSR
+![alt text](image-26.png)
+
+### BEQ và BNE
+
+```c
+; Khai bao vung ma lenh
+	AREA MYCODE, CODE, READONLY
+	ENTRY
+	EXPORT __main
+		
+; Khai bao du lieu
+;value DCD 123
+	
+; code
+__main
+	
+	MOV R1,#1
+	MOV R0,#0
+	MOV R2,#1
+	
+	CMP R0,R2
+	BEQ Bangnhau
+	BNE Khaunhau
+	MOV R2,#99
+
+Bangnhau
+	MOV R2,#100
+	
+Khacnhau
+	MOV R2,#90
+	
+STOP
+	B STOP
+	END
+```
+
+### BX: nhảy tới địa chỉ thanh ghi để làm việc
+
+## 10. Lệnh If trong ARM Assembly
+
+- Sử dụng phối hợp giữa **Branch & Compare**
+
+```c
+; Khai bao vung ma lenh
+	AREA MYCODE, CODE, READONLY
+	ENTRY
+	EXPORT __main
+
+; Khai bao du lieu
+N EQU 11
+M DCD 9
+; Code
+__main
+	LDR R0,=N
+	LDR R1,=M
+	LDR R2,[R1]
+	CMP R2,#10
+	
+	BLS BeHonBang   ; R0 <= 10
+	B NguocLai
+	
+BeHonBang
+	MOV R10,#10
+	B Next
+NguocLai
+	MOV R10,#9
+	B Next
+Next
+	MOV R10,#1
+
+STOP 
+	B STOP
+	END
+```	
+
+- Lưu ý ghi sử dụng **LDR**
+
+	- LDR R0,=N -> OK, Lấy được giá trị từ bộ nhớ (N) vào thanh ghi R0 vì N là biến hằng
+
+	- Đối với M là biến DCD, cần phải làm như trên
+
+## 11. Lệnh Switch Case
+
+- Tương tự như if, sử dụng **BEQ: nhãn nhảy tới nếu bằng** và **B**, **Compare**
+
+```c
+; Khai bao vung ma lenh
+	AREA MYCODE, CODE, READONLY
+	ENTRY
+	EXPORT __main
+
+; Khai bao du lieu
+
+; Code
+__main
+	MOV R1,#10
+	
+	CMP R1,#5
+	BEQ Case1   ; R1 == 5
+	CMP R1,#6
+	BEQ Case2   ; R1 == 6
+	CMP R1,#7
+	BEQ Case3   ; R1 == 7
+	B Next		; Default
+	
+Case3
+	MOV R10,#7
+	B Next
+Case2
+	MOV R10,#6
+	B Next
+Case1
+	MOV R10,#5
+	B Next
+	
+Next
+	MOV R10,#1
+	
+STOP 
+	B STOP
+	END
+	
+```
+
+## 12. Lệnh For loop
+
+```c
+; Khai bao vung ma lenh
+	AREA MYCODE, CODE, READONLY
+	ENTRY
+	EXPORT __main
+
+; Khai bao du lieu
+
+; Code
+__main
+
+	MOV R1,#1    ; i = 1
+
+FORTHO
+	CMP R1,#10    ; i < 10 ?
+	BGE DONE      ;  if I >= 10 DONE
+	ADD R1,R1,#1
+	B FORTHO
+	
+DONE
+	MOV R1,#100
+	
+STOP 
+	B STOP
+	END
+	
+```
+- Sử dụng **compare BGE và B**
+
+## 13. Nhóm lệnh có điều kiện & Flag
+
+```c
+	MOV R1,#1
+	MOV R2,#2
+	
+	CMP R1,#1
+	ADDEQ R0,R1,R2
+	
+	CMP R1,R2
+	ADDGT R0,R1,R2  ; R1 >= R2   R0 = R1+R2
+	SUBLE R0,R2,R1	; R1 < R2    R0 = R2 -R1
+```
+
+- Lệnh **ADDEQ: cộng... nếu lệnh so sánh ở trên bằng nhau**
+
+- Lệnh **ADDGT: cộng... nếu lớn hơn hoặc =**
+
+- lệnh **SUBLE: trừ.... nếu bé hơn**
+
+```c
+	; If( R0 == 1 || R0 == 2 ) R1 =R1+5
+	MOV R0,#2
+	
+	TEQ R0,#1
+	TEQNE R0,#2
+	ADDEQ R1,R1,#5
+```
+
+- Giải thích **TEQ & TEQNE** để làm câu lệnh giả if 2 điều kiện
+
+```c
+MOV R0, #2      ; R0 = 2
+TEQ R0, #1      ; so sánh R0 với 1 → Z = 0
+TEQNE R0, #2    ; chỉ thực thi nếu Z == 0 → sẽ được thực thi
+                ; so sánh R0 với 2 → Z = 1
+ADDEQ R1, R1, #5 ; nếu Z == 1 thì R1 += 5 → sẽ được thực thi
+
+```
+
+![alt text](image-27.png)
+
+### Overflow Flag
+
+- Các **bit cờ trong thanh ghi trạng thái APSR (Application Program Status Register)** của ARM. Các cờ này **phản ánh kết quả của các phép toán số học và logic.**
+
+![alt text](image-28.png)
+
+#### Cờ Negative Flag
+
+- Được set (N=1) nếu kết quả là số âm (bit MSB = 1).
+
+```c
+MOV R0, #-5      ; R0 = 0xFFFFFFFB
+CMP R0, #0       ; So sánh -5 với 0 → -5 < 0 → N = 1
+```
+
+#### Cờ Zero Flag
+
+- Được set (Z=1) nếu kết quả phép toán là 0.
+
+```c
+MOV R0, #5
+SUBS R0, R0, #5  ; 5 - 5 = 0 → Z = 1
+```
+#### Cờ C (Carry/ Borrow Flag)
+
+- Trong phép cộng: C = 1 nếu có dư (carry out khỏi MSB).
+
+- Trong phép trừ: C = 0 nếu có mượn (borrow).
+
+```c
+; Phép cộng gây dư:
+MOV R0, #0xFFFFFFFF
+ADDS R0, R0, #1   ; 0xFFFFFFFF + 1 = 0x00000000 → C = 1 (dư 1 bit)
+
+; Phép trừ có mượn:
+MOV R0, #3
+SUBS R0, R0, #5   ; 3 - 5 = -2 → C = 0 (có mượn)
+```
+
+#### Cờ V (Overlow Flag)
+
+- Được set (V=1) nếu phép cộng/trừ tràn số có dấu (sign overflow).
+
+```c
+; Tràn dương:
+MOV R0, #0x7FFFFFFF   ; số dương lớn nhất 32-bit
+ADDS R0, R0, #1       ; 0x7FFFFFFF + 1 = 0x80000000 → V = 1
+
+; Tràn âm:
+MOV R0, #0x80000000   ; số âm lớn nhất (int32: -2147483648)
+SUBS R0, R0, #1       ; -2147483648 - 1 = tràn → V = 1
+```
+
+## 14. Tính tổng các số bé hơn = N
+
+```c
+; Khai bao vung ma lenh
+	AREA MYCODE, CODE, READONLY
+	ENTRY
+	EXPORT __main
+
+; Khai bao du lieu
+N EQU 10
+; Code
+__main
+	MOV R0,#0  ; Tong
+	LDR R1,=N
+	
+TinhTong	
+	ADD R0,R0,R1  ; R0= R0 + R1
+	SUBS R1,R1,#1 ; R1 = R1 -1
+	CMP R1,#0
+	BGT TinhTong   ; R1 > 0 Nhay
+
+STOP 
+	B STOP
+	END
+```
+
+## 15. Tổng các số chẵn bé hơn N
+
+```c
+; Khai bao vung ma lenh
+	AREA MYCODE, CODE, READONLY
+	ENTRY
+	EXPORT __main
+
+; Khai bao du lieu
+N DCD 8
+; Code
+__main
+	MOV R0,#0  ; Bien Tang 2
+	LDR R1,N
+	MOV R2, #0  ; Tong Cac So Chan
+	
+LoopSoChan
+	CMP R1,R0
+	BHI BenDuoi
+	B Thoat
+
+BenDuoi
+	ADD R2,R2,R0   ; R2= R2 + R0
+	ADD R0,R0,#2
+	B LoopSoChan
+	
+Thoat
+
+STOP 
+	B STOP
+	END
+	
+```
